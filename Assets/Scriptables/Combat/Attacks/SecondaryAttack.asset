@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: SecondaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::AttackStatsScriptable
   DisplayName: Secondary Attack
+  AttackID: 1

@@ -42,12 +42,12 @@ public class PlayerMovement : MonoBehaviour
         moveDir.Normalize();
 
         float moveSpeed = 
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.Running) &&
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.Crouching) ?
+            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning) &&
+            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching) ?
                 _moveSpeeds.CrouchRun :
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.Running) ?
+            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning) ?
                 _moveSpeeds.Running :
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.Crouching) ?
+            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching) ?
                 _moveSpeeds.Crouching :
                 _moveSpeeds.Normal;
 

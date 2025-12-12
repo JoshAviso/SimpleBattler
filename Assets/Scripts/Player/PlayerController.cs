@@ -99,27 +99,27 @@ public class PlayerController : MonoBehaviour
         if(!_toggleCrouch)
         {
             if(isCrouchPressed)
-                PlayerStateHandler.MoveState |= MoveFlags.Crouching;
-            else PlayerStateHandler.MoveState &= ~MoveFlags.Crouching;
+                PlayerStateHandler.MoveState |= MoveFlags.IsCrouching;
+            else PlayerStateHandler.MoveState &= ~MoveFlags.IsCrouching;
         }
         else if(crouchWasPressed)
         {   
-            if(PlayerStateHandler.MoveState.HasFlag(MoveFlags.Crouching))
-                PlayerStateHandler.MoveState &= ~MoveFlags.Crouching;
-            else PlayerStateHandler.MoveState |= MoveFlags.Crouching;
+            if(PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching))
+                PlayerStateHandler.MoveState &= ~MoveFlags.IsCrouching;
+            else PlayerStateHandler.MoveState |= MoveFlags.IsCrouching;
         }
 
         if(!_toggleRun)
         {   
             if(isRunPressed)
-                PlayerStateHandler.MoveState |= MoveFlags.Running;
-            else PlayerStateHandler.MoveState &= ~MoveFlags.Running;
+                PlayerStateHandler.MoveState |= MoveFlags.IsRunning;
+            else PlayerStateHandler.MoveState &= ~MoveFlags.IsRunning;
         }
         else if(runWasPressed)
         {   
-            if(PlayerStateHandler.MoveState.HasFlag(MoveFlags.Running))
-                PlayerStateHandler.MoveState &= ~MoveFlags.Running;
-            else PlayerStateHandler.MoveState |= MoveFlags.Running;
+            if(PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning))
+                PlayerStateHandler.MoveState &= ~MoveFlags.IsRunning;
+            else PlayerStateHandler.MoveState |= MoveFlags.IsRunning;
         }
     }
 #endregion

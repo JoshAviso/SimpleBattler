@@ -5,4 +5,5 @@ using UnityEngine;
 public class AttackStatsScriptable : ScriptableObject
 {
     public String DisplayName;
+    public int AttackID;
 }
