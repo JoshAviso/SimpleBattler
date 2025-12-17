@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.InputSystem;
 
 public class PlayerController : MonoBehaviour
@@ -8,36 +9,46 @@ public class PlayerController : MonoBehaviour
     public bool InputEnabled = true;
     [SerializeReference] InputActionAsset _inputMap;
 
-    [Header("Movement")]
+    [Header("Basic Controls")]
     [SerializeReference] InputActionReference _moveAction;
     [SerializeReference] InputActionReference _lookAction;
     [SerializeReference] InputActionReference _runAction;
-    [SerializeField] bool _toggleRun = false;
-    [SerializeReference] InputActionReference _crouchAction;
-    [SerializeField] bool _toggleCrouch = false;
+    [SerializeReference] InputActionReference _agileAction;
 
     [Serializable] public struct AttackInputMapping { 
         [SerializeReference] public InputActionReference AttackAction; 
         [SerializeReference] public AttackStatsScriptable AttackRef; }
 
+    [Serializable] public struct ActionInputMapping
+    {
+        [SerializeReference] public InputActionReference InputAction;
+        public UnityEvent OnPress;
+        public UnityEvent OnPerformed;
+        public UnityEvent OnRelease;
+        public UnityEvent OnCompleted;
+    }
+
     [Header("Combat")]
-    [SerializeField] List<AttackInputMapping> _attackMappings = new();
+    [SerializeReference] InputActionReference _primaryAttackAction;
+    [SerializeReference] InputActionReference _secondaryAttackAction;
+    [SerializeReference] InputActionReference _throwAction;
+    [SerializeReference] InputActionReference _defendAction;
+    [SerializeField] List<ActionInputMapping> _actionMappings = new();
 
     void Start()
     {
         _inputMap?.Enable(); 
         SetCursorStatus(ECursorStatus.Locked);
-
-        _attackHandler = GetComponentInChildren<PlayerAttackHandler>();
-        
     }
 
     void Update()
     {
         ProcessMoveInput();
         ProcessLookInput();
-        ProcessMoveTypeUpdate();
-        ProcessAttackInput();
+
+        ProcessBodyStateInputs();
+     
+        ProcessActionInputs();
     }
 
     public enum ECursorStatus {
@@ -62,67 +73,53 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-#region Movement Processing
     void ProcessMoveInput()
     {
-        PlayerStateHandler.MoveInput = Vector2.zero;
+        PlayerStateHandler.PlayerState.MoveInput = Vector2.zero;
 
         if(!InputEnabled) return;
         if(_moveAction == null) return;
 
-        PlayerStateHandler.MoveInput = _moveAction.action.ReadValue<Vector2>();
-        if(PlayerStateHandler.MoveInput.sqrMagnitude > 1.0f)
-            PlayerStateHandler.MoveInput.Normalize();
+        PlayerStateHandler.PlayerState.MoveInput = _moveAction.action.ReadValue<Vector2>();
+        if(PlayerStateHandler.PlayerState.MoveInput.sqrMagnitude > 1.0f)
+            PlayerStateHandler.PlayerState.MoveInput.Normalize();
     }
 
-    void ProcessMoveTypeUpdate()
+    void ProcessBodyStateInputs()
     {
         if(!InputEnabled) return;
         
-        bool isCrouchPressed = false; 
-        bool crouchWasPressed = false;
+        bool isBlockPressed = false; 
         bool isRunPressed = false;
-        bool runWasPressed = false;
+        bool isAgilePressed = false;
 
-        if(_crouchAction != null) 
+        if(_defendAction != null) 
         {
-            isCrouchPressed = _crouchAction.action.IsPressed();
-            crouchWasPressed = _crouchAction.action.WasPerformedThisFrame();
+            isBlockPressed = _defendAction.action.IsPressed();
         }
         
         if(_runAction != null)
         {
             isRunPressed = _runAction.action.IsPressed();
-            runWasPressed = _runAction.action.WasPerformedThisFrame();
         }
 
-        if(!_toggleCrouch)
+        if(_agileAction != null)
         {
-            if(isCrouchPressed)
-                PlayerStateHandler.MoveState |= MoveFlags.IsCrouching;
-            else PlayerStateHandler.MoveState &= ~MoveFlags.IsCrouching;
-        }
-        else if(crouchWasPressed)
-        {   
-            if(PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching))
-                PlayerStateHandler.MoveState &= ~MoveFlags.IsCrouching;
-            else PlayerStateHandler.MoveState |= MoveFlags.IsCrouching;
+            isAgilePressed = _agileAction.action.IsPressed();
         }
 
-        if(!_toggleRun)
-        {   
-            if(isRunPressed)
-                PlayerStateHandler.MoveState |= MoveFlags.IsRunning;
-            else PlayerStateHandler.MoveState &= ~MoveFlags.IsRunning;
-        }
-        else if(runWasPressed)
-        {   
-            if(PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning))
-                PlayerStateHandler.MoveState &= ~MoveFlags.IsRunning;
-            else PlayerStateHandler.MoveState |= MoveFlags.IsRunning;
-        }
+        if(isBlockPressed)
+            PlayerStateHandler.PlayerState.BodyState |= BodyFlags.IsBlocking;
+        else PlayerStateHandler.PlayerState.BodyState &= ~BodyFlags.IsBlocking;
+
+        if(isRunPressed)
+            PlayerStateHandler.PlayerState.BodyState |= BodyFlags.IsRunning;
+        else PlayerStateHandler.PlayerState.BodyState &= ~BodyFlags.IsRunning;
+
+        if(isAgilePressed)
+            PlayerStateHandler.PlayerState.BodyState |= BodyFlags.IsAgile;
+        else PlayerStateHandler.PlayerState.BodyState &= ~BodyFlags.IsAgile;
     }
-#endregion
     
     void ProcessLookInput()
     {
@@ -136,22 +133,62 @@ public class PlayerController : MonoBehaviour
             PlayerStateHandler.LookInput.Normalize();
     }    
 
-    PlayerAttackHandler _attackHandler; 
-    void ProcessAttackInput()
+    void ProcessActionInputs()
     {
         if(!InputEnabled) return;
-        if(!_attackHandler) return;
 
-        foreach (AttackInputMapping attack in _attackMappings)
+        foreach(ActionInputMapping action in _actionMappings)
         {
-            if(attack.AttackAction == null) continue;
-            if(attack.AttackRef == null) continue;
-
-            if(attack.AttackAction.action.WasPerformedThisFrame())
-                _attackHandler.AttackPerformed(attack.AttackRef);
+            if(action.InputAction == null) continue;
+            
+            if(action.InputAction.action.WasPressedThisFrame())
+                action.OnPress?.Invoke();
+            if(action.InputAction.action.WasPerformedThisFrame())
+                action.OnPerformed?.Invoke();
+            if(action.InputAction.action.WasReleasedThisFrame())
+                action.OnRelease?.Invoke();
+            if(action.InputAction.action.WasCompletedThisFrame())
+                action.OnCompleted?.Invoke();
         }
     }
-    
+
+    public void PrimaryAtk()
+    {
+        LogUtils.Log("Attack!");
+    }
+    public void Throw()
+    {
+        LogUtils.Log("Throw!");
+    }
+    public void Interact()
+    {
+        LogUtils.Log("Interact!");
+    }
+    public void Dodge()
+    {
+        LogUtils.Log("Dodge!");
+    }
+    public void Roll()
+    {
+        LogUtils.Log("Roll!");
+    }
+    public void StartBlock()
+    {
+        LogUtils.Log("Start Block!");
+    }
+    public void SecondaryAtkPress()
+    {
+        LogUtils.Log("Secondary Press!");
+    }
+    public void SecondaryAtkRelease()
+    {
+        LogUtils.Log("Secondary Release!");
+    }
+    public void ToggleSkillMenu()
+    {
+        LogUtils.Log("Toggle Skill Menu!");
+    }
+
     // SINGLETON
     public static PlayerController Instance { get; private set; }
     protected virtual void Awake(){

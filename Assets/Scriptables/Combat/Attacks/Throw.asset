@@ -10,6 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 48b58e2e89e1ab047bda4968c52c5c45, type: 3}
-  m_Name: BasicAttack
+  m_Name: Throw
   m_EditorClassIdentifier: Assembly-CSharp::AttackStatsScriptable
-  DisplayName: Basic Attack
+  DisplayName: Throw
+  AttackID: 1

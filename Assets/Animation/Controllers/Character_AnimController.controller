@@ -152,7 +152,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: IsCrouching
+    m_ConditionEvent: IsBlocking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7196435637668999905}
@@ -446,7 +446,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsCrouching
+    m_ConditionEvent: IsBlocking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -432125592220320296}
@@ -610,7 +610,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: IsCrouching
+    m_ConditionEvent: IsBlocking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -5522297865750609746}
@@ -659,7 +659,13 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: IsCrouching
+  - m_Name: IsBlocking
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 9100000}
+  - m_Name: IsAgile
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -819,7 +825,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsCrouching
+    m_ConditionEvent: IsBlocking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6256826894853517342}
@@ -858,7 +864,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsCrouching
+    m_ConditionEvent: IsBlocking
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -432125592220320296}
@@ -1007,29 +1013,29 @@ AnimatorStateMachine:
   m_AnyStateTransitions: []
   m_EntryTransitions: []
   m_StateMachineTransitions:
-  - first: {fileID: -4494993268371059607}
-    second:
-    - {fileID: 4146602518896819585}
-  - first: {fileID: 8555904742154763938}
-    second:
-    - {fileID: 9044611391314829699}
-    - {fileID: -2095603805655022096}
-    - {fileID: -671164328798593791}
-  - first: {fileID: 7456313311000759041}
-    second:
-    - {fileID: 2052462605540812521}
-    - {fileID: -7374510828409746944}
-    - {fileID: 2686445404603777616}
-  - first: {fileID: -530002633021824895}
-    second:
-    - {fileID: 3403662625416505225}
-    - {fileID: 5414192266849241456}
-    - {fileID: -4680826451813596649}
   - first: {fileID: -3961149349975330600}
     second:
     - {fileID: -8109467870035119680}
     - {fileID: -3575925582289036269}
     - {fileID: 3800437881007209334}
+  - first: {fileID: -530002633021824895}
+    second:
+    - {fileID: 3403662625416505225}
+    - {fileID: 5414192266849241456}
+    - {fileID: -4680826451813596649}
+  - first: {fileID: 7456313311000759041}
+    second:
+    - {fileID: 2052462605540812521}
+    - {fileID: -7374510828409746944}
+    - {fileID: 2686445404603777616}
+  - first: {fileID: 8555904742154763938}
+    second:
+    - {fileID: 9044611391314829699}
+    - {fileID: -2095603805655022096}
+    - {fileID: -671164328798593791}
+  - first: {fileID: -4494993268371059607}
+    second:
+    - {fileID: 4146602518896819585}
   m_StateMachineBehaviours: []
   m_AnyStatePosition: {x: 50, y: 20, z: 0}
   m_EntryPosition: {x: 60, y: 300, z: 0}
@@ -1163,7 +1169,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack0
+  m_Name: Attack00_FW0
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
@@ -1190,7 +1196,7 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attack1
+  m_Name: Attack1_BW
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:

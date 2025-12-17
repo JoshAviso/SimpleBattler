@@ -24,13 +24,15 @@ public class PlayerMeshHandler : MonoBehaviour
     {
         if(_targetFacingTarget == Vector3.zero) return;
 
+        BodyFlags bodyflags = PlayerStateHandler.PlayerState.BodyState;
         float faceSpeed = 
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning) &&
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching) ?
+            bodyflags.HasFlag(BodyFlags.IsAttacking) ?
+                _facingSpeeds.Fast : 
+            bodyflags.HasFlag(BodyFlags.IsBlocking) && (bodyflags.HasFlag(BodyFlags.IsAgile) || bodyflags.HasFlag(BodyFlags.IsRunning)) ?
                 _facingSpeeds.Normal :
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning) ?
+            bodyflags.HasFlag(BodyFlags.IsRunning) || bodyflags.HasFlag(BodyFlags.IsAgile) ?
                 _facingSpeeds.Fast :
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching) ?
+            bodyflags.HasFlag(BodyFlags.IsBlocking) ?
                 _facingSpeeds.Slow :
                 _facingSpeeds.Normal;
 

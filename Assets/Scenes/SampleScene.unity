@@ -133,6 +133,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
   m_ActionId: 90134b2f-31ba-44a7-b09c-5b399952124d
+--- !u!114 &10743249
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/SecondaryAttack
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: 6af0776c-3b7d-4144-878c-98c37af8e0fd
 --- !u!1 &33754300
 GameObject:
   m_ObjectHideFlags: 0
@@ -569,6 +583,20 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &368805120
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/Agile
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: f826f949-2661-498c-8c72-0c3437aeacf3
 --- !u!1 &399637123
 GameObject:
   m_ObjectHideFlags: 0
@@ -969,7 +997,7 @@ MonoBehaviour:
   _horizontalLookSpeed: 270
   _verticalLookSpeed: 90
   _verticalLookBounds: {x: -20, y: 30}
---- !u!114 &561599895
+--- !u!114 &430931709
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -979,7 +1007,35 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Player_BasicControls/Crouch
+  m_Name: Player_BasicControls/Agile
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: f826f949-2661-498c-8c72-0c3437aeacf3
+--- !u!114 &587412352
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/Defend
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: 1288f0d4-041b-4ba3-9ebb-0e54542f78bb
+--- !u!114 &701894617
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/Defend
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
   m_ActionId: 1288f0d4-041b-4ba3-9ebb-0e54542f78bb
@@ -1037,14 +1093,199 @@ MonoBehaviour:
   _moveAction: {fileID: 4886974}
   _lookAction: {fileID: 1824022642}
   _runAction: {fileID: 1365593535}
-  _toggleRun: 0
-  _crouchAction: {fileID: 561599895}
-  _toggleCrouch: 0
-  _attackMappings:
-  - AttackAction: {fileID: 1689073022}
-    AttackRef: {fileID: 11400000, guid: e6e487fdf4b6ed14ab6a88f8376250ce, type: 2}
-  - AttackAction: {fileID: 1397990197}
-    AttackRef: {fileID: 11400000, guid: d7bb27f8ff18dae4098f8db32c213e7d, type: 2}
+  _agileAction: {fileID: 430931709}
+  _primaryAttackAction: {fileID: 0}
+  _secondaryAttackAction: {fileID: 0}
+  _throwAction: {fileID: 0}
+  _defendAction: {fileID: 587412352}
+  _actionMappings:
+  - InputAction: {fileID: 2045795520}
+    OnPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPerformed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650984}
+          m_TargetAssemblyTypeName: PlayerAttackHandler, Assembly-CSharp
+          m_MethodName: AttackPerformed
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: e6e487fdf4b6ed14ab6a88f8376250ce, type: 2}
+            m_ObjectArgumentAssemblyTypeName: AttackStatsScriptable, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnRelease:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  - InputAction: {fileID: 10743249}
+    OnPress:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650984}
+          m_TargetAssemblyTypeName: PlayerAttackHandler, Assembly-CSharp
+          m_MethodName: AttackPerformed
+          m_Mode: 2
+          m_Arguments:
+            m_ObjectArgument: {fileID: 11400000, guid: d7bb27f8ff18dae4098f8db32c213e7d, type: 2}
+            m_ObjectArgumentAssemblyTypeName: AttackStatsScriptable, Assembly-CSharp
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnPerformed:
+      m_PersistentCalls:
+        m_Calls: []
+    OnRelease:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650981}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: SecondaryAtkRelease
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  - InputAction: {fileID: 2109816499}
+    OnPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPerformed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650981}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: Throw
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnRelease:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  - InputAction: {fileID: 701894617}
+    OnPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPerformed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650981}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: StartBlock
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnRelease:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  - InputAction: {fileID: 368805120}
+    OnPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPerformed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650981}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: Dodge
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnRelease:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  - InputAction: {fileID: 1067943268}
+    OnPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPerformed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650981}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: Roll
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnRelease:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCompleted:
+      m_PersistentCalls:
+        m_Calls: []
+  - InputAction: {fileID: 1914410858}
+    OnPress:
+      m_PersistentCalls:
+        m_Calls: []
+    OnPerformed:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 828650981}
+          m_TargetAssemblyTypeName: PlayerController, Assembly-CSharp
+          m_MethodName: Throw
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnRelease:
+      m_PersistentCalls:
+        m_Calls: []
+    OnCompleted:
+      m_PersistentCalls:
+        m_Calls: []
 --- !u!114 &828650982
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1057,7 +1298,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cc97194d20ee7b499605e9b0073d095, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerStateHandler
-  _moveState: 0
+  _actionState: 0
 --- !u!95 &828650983
 Animator:
   serializedVersion: 7
@@ -1092,7 +1333,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 32e8e694ecb640a4e8d9cb5d921393fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerAttackHandler
-  _attackFinished: 0
+  _onAttackFinished:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &828650985
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1392,6 +1635,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::HitboxScript
   _hitLayers: 2
+--- !u!114 &1067943268
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/Roll
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: 1b0e8e76-3a01-4888-861b-a7c29db06212
 --- !u!1 &1298725680
 GameObject:
   m_ObjectHideFlags: 0
@@ -1511,20 +1768,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
   m_ActionId: f29ab05c-36da-4d12-a4b5-6df373941ecf
---- !u!114 &1397990197
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Player_BasicControls/SecondaryAttack
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
-  m_ActionId: 6af0776c-3b7d-4144-878c-98c37af8e0fd
 --- !u!1 &1557976285
 GameObject:
   m_ObjectHideFlags: 0
@@ -1859,20 +2102,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1689073022
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
-  m_Name: Player_BasicControls/BasicAttack
-  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
-  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
-  m_ActionId: b90e96f5-ddaf-40e3-a9b3-398b29220550
 --- !u!114 &1824022642
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1887,6 +2116,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
   m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
   m_ActionId: 3b875d27-07c0-4d6b-a30e-348c129546af
+--- !u!114 &1914410858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/Throw
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: 1b7c47aa-3ca6-4774-a939-f50bbd08192c
 --- !u!1 &1927691417
 GameObject:
   m_ObjectHideFlags: 0
@@ -2008,6 +2251,34 @@ Transform:
   m_Children: []
   m_Father: {fileID: 428504367}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2045795520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/PrimaryAttack
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: b90e96f5-ddaf-40e3-a9b3-398b29220550
+--- !u!114 &2109816499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc1515ab76e54f068e2f2207940fab32, type: 3}
+  m_Name: Player_BasicControls/Throw
+  m_EditorClassIdentifier: Unity.InputSystem::UnityEngine.InputSystem.InputActionReference
+  m_Asset: {fileID: -944628639613478452, guid: acad37cecfdaa1749941aaf5b3bfab34, type: 3}
+  m_ActionId: 1b7c47aa-3ca6-4774-a939-f50bbd08192c
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

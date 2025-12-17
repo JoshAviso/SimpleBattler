@@ -8,13 +8,13 @@ public class PlayerAttackHandler : AttackHandler
     public void AttackPerformed(AttackStatsScriptable attack)
     {
         Debug.Log($"Performed {attack.DisplayName}!");
-        PlayerStateHandler.CurrentAttack = attack;
-        PlayerStateHandler.MoveState |= MoveFlags.IsAttacking;
+        // PlayerStateHandler.PlayerState.CurrentAttack = attack;
+        PlayerStateHandler.PlayerState.BodyState |= BodyFlags.IsAttacking;
     }
     public void AttackFinishedCallback()
     {
-        PlayerStateHandler.MoveState &= ~MoveFlags.IsAttacking;
-        LogUtils.Log("Received attack callback");
+        PlayerStateHandler.PlayerState.BodyState &= ~BodyFlags.IsAttacking;
+        // LogUtils.Log("Received attack callback");
         _onAttackFinished?.Invoke();
     }
 }

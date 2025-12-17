@@ -8,10 +8,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform _lookTransform;
     [SerializeField] PlayerMeshHandler _meshHandler;
 
-    [Serializable] struct MoveSpeed { public float Normal, Crouching, Running, CrouchRun; 
-        public MoveSpeed(float n, float c, float r, float cr){ Normal = n; Crouching = c; Running = r; CrouchRun = cr; } }
+    [Serializable] struct MoveSpeed { public float Normal, Blocking, QuickBlock, Jogging, Running, Sprinting, Aerial; 
+        public MoveSpeed(float n, float b, float qb, float j, float r, float s, float a){ Normal = n; Blocking = b; QuickBlock = qb; Jogging = j; Running = r; Sprinting = s; Aerial = a;} }
 
-    [SerializeField] MoveSpeed _moveSpeeds = new () ;
+    [SerializeField] MoveSpeed _moveSpeeds = new();
 
     Rigidbody _rb;
 
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
 
     public void Move(float deltaTime)
     {
-        Vector2 normalizedInput = PlayerStateHandler.MoveInput;
+        Vector2 normalizedInput = PlayerStateHandler.PlayerState.MoveInput;
 
         if(normalizedInput.sqrMagnitude > 1.0f)
             normalizedInput.Normalize();
@@ -41,14 +41,21 @@ public class PlayerMovement : MonoBehaviour
         Vector3 moveDir = flatForward * normalizedInput.y + right;
         moveDir.Normalize();
 
+        BodyFlags bodystate = PlayerStateHandler.PlayerState.BodyState;
+
         float moveSpeed = 
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning) &&
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching) ?
-                _moveSpeeds.CrouchRun :
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsRunning) ?
+            !bodystate.HasFlag(BodyFlags.IsGrounded) ?
+                _moveSpeeds.Aerial :
+            bodystate.HasFlag(BodyFlags.IsBlocking) && (bodystate.HasFlag(BodyFlags.IsAgile) || bodystate.HasFlag(BodyFlags.IsRunning)) ?
+                _moveSpeeds.QuickBlock :
+            bodystate.HasFlag(BodyFlags.IsAgile | BodyFlags.IsRunning) ?
+                _moveSpeeds.Sprinting :
+            bodystate.HasFlag(BodyFlags.IsBlocking) ?
+                _moveSpeeds.Blocking :
+            bodystate.HasFlag(BodyFlags.IsAgile) ?
+                _moveSpeeds.Jogging :
+            bodystate.HasFlag(BodyFlags.IsRunning) ?
                 _moveSpeeds.Running :
-            PlayerStateHandler.MoveState.HasFlag(MoveFlags.IsCrouching) ?
-                _moveSpeeds.Crouching :
                 _moveSpeeds.Normal;
 
         Vector3 move3D = moveSpeed * deltaTime * moveDir;

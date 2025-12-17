@@ -1,27 +1,49 @@
 using System;
 using UnityEngine;
 
-[Flags] public enum MoveFlags {
+[Flags] public enum BodyFlags {
     None = 0, 
     IsRunning = 1 << 0, 
-    IsCrouching = 1 << 1,
-    IsGrounded = 1 << 2,
-    IsAttacking = 1 << 3
+    IsBlocking = 1 << 1,
+    IsAgile = 1 << 2,
+    IsGrounded = 1 << 3,
+    IsAttacking = 1 << 4,
 }
+
+[Serializable] public struct PlayerState
+{
+    public Vector2 MoveInput;
+    public BodyFlags BodyState;
+    public EActionType Action;
+}
+
 
 public class PlayerStateHandler : MonoBehaviour
 {
     public static Vector2 LookInput;
-    public static Vector2 MoveInput;
-    public static MoveFlags MoveState;
-    public static AttackStatsScriptable CurrentAttack;
+    public static PlayerState PlayerState;
+    public static PlayerState Previous_PlayerState;
 
-    [SerializeField] private MoveFlags _moveState;
+    [SerializeField] private BodyFlags _actionState;
     void Update()
     {
-        _moveState = MoveState;
-        MoveState |= MoveFlags.IsGrounded; // Temp, need to do ground checking
+        _actionState = PlayerState.BodyState;
+        PlayerState.BodyState |= BodyFlags.IsGrounded; // Temp, need to do ground checking
     }
+
+    public static int CurrentAttackID => GetAttackID(PlayerState);
+    public static int PreviousAttackID => GetAttackID(Previous_PlayerState);
+    static int GetAttackID(PlayerState state)
+    {
+        int id = state.Action switch
+        {
+            _ => -1
+        };
+        if (id <= -1) return -1;
+
+        return 1;
+    }
+
 
     // SINGLETON
     public static PlayerStateHandler Instance { get; private set; }
