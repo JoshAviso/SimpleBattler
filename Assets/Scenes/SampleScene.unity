@@ -1701,9 +1701,12 @@ MonoBehaviour:
   _meshHandler: {fileID: 1618189590}
   _moveSpeeds:
     Normal: 100
-    Crouching: 50
-    Running: 200
-    CrouchRun: 80
+    Blocking: 50
+    QuickBlock: 70
+    Jogging: 120
+    Running: 150
+    Sprinting: 200
+    Aerial: 70
 --- !u!54 &1298725683
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1940,7 +1943,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: 365a5d3ad41162c40a9cab57d389f695, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

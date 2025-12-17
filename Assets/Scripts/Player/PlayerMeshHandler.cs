@@ -29,11 +29,11 @@ public class PlayerMeshHandler : MonoBehaviour
             bodyflags.HasFlag(BodyFlags.IsAttacking) ?
                 _facingSpeeds.Fast : 
             bodyflags.HasFlag(BodyFlags.IsBlocking) && (bodyflags.HasFlag(BodyFlags.IsAgile) || bodyflags.HasFlag(BodyFlags.IsRunning)) ?
-                _facingSpeeds.Normal :
+                _facingSpeeds.Fast :
             bodyflags.HasFlag(BodyFlags.IsRunning) || bodyflags.HasFlag(BodyFlags.IsAgile) ?
                 _facingSpeeds.Fast :
             bodyflags.HasFlag(BodyFlags.IsBlocking) ?
-                _facingSpeeds.Slow :
+                _facingSpeeds.Fast :
                 _facingSpeeds.Normal;
 
         Quaternion rotation = Quaternion.LookRotation(_targetFacingTarget);
