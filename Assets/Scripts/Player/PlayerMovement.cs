@@ -7,6 +7,7 @@ public class PlayerMovement : MonoBehaviour
 {
     [SerializeField] Transform _lookTransform;
     [SerializeField] PlayerMeshHandler _meshHandler;
+    [SerializeField] bool _useRootMotion;
 
     [Serializable] struct MoveSpeed { public float Normal, Blocking, QuickBlock, Jogging, Running, Sprinting, Aerial; 
         public MoveSpeed(float n, float b, float qb, float j, float r, float s, float a){ Normal = n; Blocking = b; QuickBlock = qb; Jogging = j; Running = r; Sprinting = s; Aerial = a;} }
@@ -38,6 +39,13 @@ public class PlayerMovement : MonoBehaviour
         flatForward.y = 0.0f;
         flatForward.Normalize();
 
+        // Update Mesh Updater
+        if(_meshHandler && normalizedInput.sqrMagnitude != 0.0f)
+            _meshHandler.BeginFaceTowards(flatForward);
+
+        // If Using Root Motion, do not calculate RB movement
+        if(_useRootMotion) return;
+
         Vector3 moveDir = flatForward * normalizedInput.y + right;
         moveDir.Normalize();
 
@@ -64,9 +72,6 @@ public class PlayerMovement : MonoBehaviour
         float yVelocity = _rb.linearVelocity.y;
         _rb.linearVelocity = new(move3D.x, yVelocity, move3D.z);
 
-        // Update Mesh Updater
-        if(_meshHandler && normalizedInput.sqrMagnitude != 0.0f)
-            _meshHandler.BeginFaceTowards(flatForward);
     }
 
 }

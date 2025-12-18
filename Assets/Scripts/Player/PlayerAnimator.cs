@@ -21,13 +21,24 @@ public class PlayerAnimator : MonoBehaviour
     {
         Vector2 moveInput = PlayerStateHandler.PlayerState.MoveInput;
         if(moveInput.sqrMagnitude > 1f) moveInput.Normalize();
+
+        BodyFlags bodystate = PlayerStateHandler.PlayerState.BodyState;
+        float alert = 1f;
+
+        if(bodystate.HasFlag(BodyFlags.IsRunning | BodyFlags.IsAgile))
+            alert = 4f;
+        else if(bodystate.HasFlag(BodyFlags.IsRunning))
+            alert = 3f;
+        else if(bodystate.HasFlag(BodyFlags.IsAgile))
+            alert = 2f;
+
+        moveInput *= alert;
+
         _animator.SetFloat("XMove", moveInput.x);
-        _animator.SetFloat("YMove", moveInput.y);
+        _animator.SetFloat("ZMove", moveInput.y);
+        _animator.SetFloat("Alert", alert);
     
-        _animator.SetBool("IsMoving", PlayerStateHandler.PlayerState.MoveInput.sqrMagnitude > 0f);
-        _animator.SetBool("IsRunning", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.IsRunning));
         _animator.SetBool("IsBlocking", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.IsBlocking));
-        _animator.SetBool("IsAgile", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.IsAgile));
         _animator.SetBool("IsGrounded", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.IsGrounded));
         UpdateAttackingState();
 

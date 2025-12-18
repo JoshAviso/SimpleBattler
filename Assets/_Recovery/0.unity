@@ -159,7 +159,7 @@ GameObject:
   - component: {fileID: 33754303}
   - component: {fileID: 33754302}
   - component: {fileID: 33754301}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -609,7 +609,7 @@ GameObject:
   - component: {fileID: 399637126}
   - component: {fileID: 399637125}
   - component: {fileID: 399637124}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cube (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -848,7 +848,7 @@ GameObject:
   - component: {fileID: 424448568}
   - component: {fileID: 424448567}
   - component: {fileID: 424448566}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1409,7 +1409,7 @@ GameObject:
   - component: {fileID: 847918678}
   - component: {fileID: 847918677}
   - component: {fileID: 847918676}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cube (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1661,7 +1661,6 @@ GameObject:
   - component: {fileID: 1298725687}
   - component: {fileID: 1298725683}
   - component: {fileID: 1298725682}
-  - component: {fileID: 1298725688}
   m_Layer: 0
   m_Name: PlayerBodyContainer
   m_TagString: Untagged
@@ -1700,7 +1699,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
   _lookTransform: {fileID: 428504367}
   _meshHandler: {fileID: 1618189590}
-  _useRootMotion: 0
   _moveSpeeds:
     Normal: 100
     Blocking: 50
@@ -1759,26 +1757,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &1298725688
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1298725680}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e16573c54c2ec3c4ba4efa0056887199, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::FloorHandler
-  _checkLocation: {fileID: 1298725681}
-  _checkOffset: {x: 0, y: -0.5, z: 0}
-  _groundMask:
-    serializedVersion: 2
-    m_Bits: 8
-  _checkRadius: 0.5
-  _checkDistance: 0.4
-  _showDebug: 1
 --- !u!114 &1365593535
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1805,7 +1783,7 @@ GameObject:
   - component: {fileID: 1557976288}
   - component: {fileID: 1557976287}
   - component: {fileID: 1557976286}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Cube (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2026,7 +2004,7 @@ GameObject:
   - component: {fileID: 1683086463}
   - component: {fileID: 1683086462}
   - component: {fileID: 1683086461}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Plane
   m_TagString: Untagged
   m_Icon: {fileID: 0}

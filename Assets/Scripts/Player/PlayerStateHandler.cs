@@ -25,10 +25,30 @@ public class PlayerStateHandler : MonoBehaviour
     public static PlayerState Previous_PlayerState;
 
     [SerializeField] private BodyFlags _actionState;
+
+    private FloorHandler _floorCheck;
+    void Start()
+    {
+        _floorCheck = GetComponentInChildren<FloorHandler>();
+    }
+
     void Update()
     {
+        UpdateIsGrounded();
         _actionState = PlayerState.BodyState;
-        PlayerState.BodyState |= BodyFlags.IsGrounded; // Temp, need to do ground checking
+    }
+
+    void UpdateIsGrounded()
+    {
+        if (_floorCheck)
+        {
+            if(_floorCheck.IsGrounded)
+                PlayerState.BodyState |= BodyFlags.IsGrounded;
+            else
+                PlayerState.BodyState &= ~BodyFlags.IsGrounded;
+        }
+        // If cant find floor check, assume player is always on floor
+        else PlayerState.BodyState |= BodyFlags.IsGrounded;
     }
 
     public static int CurrentAttackID => GetAttackID(PlayerState);
