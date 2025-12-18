@@ -42,7 +42,8 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetBool("IsGrounded", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.IsGrounded));
         UpdateAttackingState();
 
-        _animator.SetBool("IsAttacking", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.IsAttacking));
+        _animator.SetBool("HasPendingMove", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.HasPendingMove));
+        PlayerMoveHandler.MoveBeganPerformCallback();
         // _animator.SetInteger("AttackID", PlayerStateHandler.CurrentAttack ? PlayerStateHandler.CurrentAttack.AttackID : -1);
     }
 

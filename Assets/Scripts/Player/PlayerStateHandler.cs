@@ -7,7 +7,7 @@ using UnityEngine;
     IsBlocking = 1 << 1,
     IsAgile = 1 << 2,
     IsGrounded = 1 << 3,
-    IsAttacking = 1 << 4,
+    HasPendingMove = 1 << 4,
 }
 
 [Serializable] public struct PlayerState

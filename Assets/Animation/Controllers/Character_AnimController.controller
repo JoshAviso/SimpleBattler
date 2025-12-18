@@ -76,7 +76,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -448,7 +448,7 @@ AnimatorStateMachine:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Attacking
+  m_Name: Performing Move
   m_ChildStates:
   - serializedVersion: 1
     m_State: {fileID: 6137978504247286740}
@@ -556,7 +556,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -4494993268371059607}
   m_DstState: {fileID: 0}
@@ -573,7 +573,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -4494993268371059607}
   m_DstState: {fileID: 0}
@@ -780,7 +780,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: IsAttacking
+  - m_Name: HasPendingMove
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -909,7 +909,7 @@ AnimatorTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: -4494993268371059607}
   m_DstState: {fileID: 0}
@@ -1083,7 +1083,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -1201,7 +1201,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -1843,7 +1843,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -2077,7 +2077,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
@@ -2252,7 +2252,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: IsAttacking
+    m_ConditionEvent: HasPendingMove
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 0}
