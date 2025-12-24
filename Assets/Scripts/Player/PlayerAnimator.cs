@@ -1,12 +1,11 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
 public class PlayerAnimator : MonoBehaviour
 {
     Animator _animator;
     void Awake()
     {
-        _animator = GetComponent<Animator>();
+        _animator = GetComponentInChildren<Animator>();
         if (!_animator)
         {
             LogUtils.LogWarning(this, "Could not find Animator component");
