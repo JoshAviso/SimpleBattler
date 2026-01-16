@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PrimaryAttack
   m_EditorClassIdentifier: Assembly-CSharp::AttackStatsScriptable
   DisplayName: Basic Attack
+  AttackType: 0

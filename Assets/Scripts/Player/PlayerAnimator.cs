@@ -41,9 +41,21 @@ public class PlayerAnimator : MonoBehaviour
         _animator.SetBool("IsGrounded", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.IsGrounded));
         UpdateAttackingState();
 
-        _animator.SetBool("HasPendingMove", PlayerStateHandler.PlayerState.BodyState.HasFlag(BodyFlags.HasPendingMove));
-        PlayerMoveHandler.MoveBeganPerformCallback();
-        // _animator.SetInteger("AttackID", PlayerStateHandler.CurrentAttack ? PlayerStateHandler.CurrentAttack.AttackID : -1);
+        if (PlayerStateHandler.PlayerState.PendingAction != EActionType.None)
+        {
+            _animator.SetTrigger("HasPendingAction");
+            _animator.SetInteger("ActionID", (int)PlayerStateHandler.PlayerState.PendingAction);
+            _animator.SetInteger("AttackID", (int)PlayerStateHandler.PlayerState.AttackType);
+            
+            PlayerStateHandler.PlayerState.OngoingAction = PlayerStateHandler.PlayerState.PendingAction;
+            PlayerStateHandler.PlayerState.PendingAction = EActionType.None;
+
+        }
+    }
+
+    public void ActionEndedCallback(){ 
+        PlayerStateHandler.PlayerState.OngoingAction = EActionType.None;
+        LogUtils.Log(this, "Attack End Callback");
     }
 
     void UpdateAttackingState()

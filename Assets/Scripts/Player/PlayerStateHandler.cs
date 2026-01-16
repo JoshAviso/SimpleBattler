@@ -6,17 +6,26 @@ using UnityEngine;
     IsRunning = 1 << 0, 
     IsBlocking = 1 << 1,
     IsAgile = 1 << 2,
-    IsGrounded = 1 << 3,
-    HasPendingMove = 1 << 4,
+    IsGrounded = 1 << 3
 }
 
 [Serializable] public struct PlayerState
 {
     public Vector2 MoveInput;
     public BodyFlags BodyState;
-    public EActionType Action;
+    public EActionType OngoingAction;
+    public EActionType PendingAction;
+    public EAttackType AttackType;
 }
 
+public enum EActionType
+{
+    None = -1, Attack = 0,
+    L_Atk, LL_Atk, LLL_Atk, H_Atk, HHold_Atk, LH_Atk, LLH_Atk, LLLH_Atk, 
+    StanceSwitch_In, StanceSwitch_Out, 
+    Perfect_Dodge, Dodge, Roll, Perfect_Parry, Block, 
+    FullRun
+}
 
 public class PlayerStateHandler : MonoBehaviour
 {
@@ -55,11 +64,11 @@ public class PlayerStateHandler : MonoBehaviour
     public static int PreviousAttackID => GetAttackID(Previous_PlayerState);
     static int GetAttackID(PlayerState state)
     {
-        int id = state.Action switch
-        {
-            _ => -1
-        };
-        if (id <= -1) return -1;
+        // int id = state.Action switch
+        // {
+            // _ => -1
+        // };
+        // if (id <= -1) return -1;
 
         return 1;
     }

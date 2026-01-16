@@ -33,12 +33,14 @@ public class PlayerController : MonoBehaviour
     [SerializeReference] InputActionReference _secondaryAttackAction;
     [SerializeReference] InputActionReference _throwAction;
     [SerializeReference] InputActionReference _defendAction;
+    private PlayerAttackHandler _attackHandler;
     [SerializeField] List<ActionInputMapping> _actionMappings = new();
 
     void Start()
     {
         _inputMap?.Enable(); 
         SetCursorStatus(ECursorStatus.Locked);
+        _attackHandler = GetComponent<PlayerAttackHandler>();
     }
 
     void Update()
@@ -136,6 +138,12 @@ public class PlayerController : MonoBehaviour
     void ProcessActionInputs()
     {
         if(!InputEnabled) return;
+
+        if(_primaryAttackAction && _primaryAttackAction.action.WasPerformedThisFrame())
+            LogUtils.Log(this, "Primary Atk Input");
+        if(_secondaryAttackAction && _secondaryAttackAction.action.WasPerformedThisFrame())
+            LogUtils.Log(this, "Secondary Atk Input");
+        // _hand
 
         foreach(ActionInputMapping action in _actionMappings)
         {

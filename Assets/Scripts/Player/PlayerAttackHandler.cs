@@ -1,6 +1,11 @@
 using UnityEngine;
 
-public class PlayerMoveHandler : AttackHandler
+public enum EAttackType
+{
+    None = -1, L = 0, LL = 1, LLL = 2, H = 3, LH = 4, LLH = 5, LLLH = 6, HH = 7
+}
+
+public class PlayerAttackHandler : AttackHandler
 {
     public enum AttackInputType
     {
@@ -10,17 +15,17 @@ public class PlayerMoveHandler : AttackHandler
     public void AttackPerformed(AttackStatsScriptable attack)
     {
         Debug.Log($"Performed {attack.DisplayName}!");
-        PlayerStateHandler.PlayerState.BodyState |= BodyFlags.HasPendingMove;
+        PlayerStateHandler.PlayerState.PendingAction = EActionType.Attack;
+        PlayerStateHandler.PlayerState.AttackType = attack.AttackType;
     }
 
-    static public void MoveBeganPerformCallback()
+    public void AttackInputDetected(AttackInputType inputType)
     {
-        PlayerStateHandler.PlayerState.BodyState &= ~BodyFlags.HasPendingMove;
         
     }
     
     // SINGLETON
-    public static PlayerMoveHandler Instance { get; private set; }
+    public static PlayerAttackHandler Instance { get; private set; }
     protected virtual void Awake(){
         if (Instance == null) {
             Instance = this;

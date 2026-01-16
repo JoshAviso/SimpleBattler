@@ -26,8 +26,8 @@ public class PlayerMeshHandler : MonoBehaviour
 
         BodyFlags bodyflags = PlayerStateHandler.PlayerState.BodyState;
         float faceSpeed = 
-            bodyflags.HasFlag(BodyFlags.HasPendingMove) ?
-                _facingSpeeds.Fast : 
+            // bodyflags.HasFlag(BodyFlags.HasPendingAction) ?
+                // _facingSpeeds.Fast : 
             bodyflags.HasFlag(BodyFlags.IsBlocking) && (bodyflags.HasFlag(BodyFlags.IsAgile) || bodyflags.HasFlag(BodyFlags.IsRunning)) ?
                 _facingSpeeds.Fast :
             bodyflags.HasFlag(BodyFlags.IsRunning) || bodyflags.HasFlag(BodyFlags.IsAgile) ?

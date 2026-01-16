@@ -1,14 +1,6 @@
 using System;
 using UnityEngine;
 
-public enum EActionType
-{
-    None,
-    L_Atk, LL_Atk, LLL_Atk, H_Atk, HHold_Atk, LH_Atk, LLH_Atk, LLLH_Atk, 
-    StanceSwitch_In, StanceSwitch_Out, 
-    Perfect_Dodge, Dodge, Roll, Perfect_Parry, Block, 
-    FullRun, 
-}
 
 public class PlayerActionDispatcher : MonoBehaviour
 {

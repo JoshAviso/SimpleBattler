@@ -5,5 +5,5 @@ using UnityEngine;
 public class AttackStatsScriptable : ScriptableObject
 {
     public String DisplayName;
-    public int AttackID;
+    public EAttackType AttackType = EAttackType.None;
 }
