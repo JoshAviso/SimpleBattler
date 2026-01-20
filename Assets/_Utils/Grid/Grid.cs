@@ -16,9 +16,12 @@ public interface IGridObject
     public TGridObject[,,] _objects;
     public void Resize(uint newX, uint newY, uint newZ)
     {
-        Debug.Log("Running Resize");
+
         if (_objects == null)
         {
+            XSize = newX; 
+            YSize = newY; 
+            ZSize = newZ;
             _objects = new TGridObject[newX, newY, newZ];
             return;
         }
@@ -42,7 +45,7 @@ public interface IGridObject
     }
 
     public TGridObject GetObjectAtCell(uint x, uint y, uint z)
-        { return IsWithinBounds(x, y, z) ? _objects[x, y, z] : default(TGridObject); }
+        { return IsWithinBounds(x, y, z) ? _objects[x, y, z] : default; }
 
     /// <returns>True if the grid address is within the grid's dimensions</returns>
     public bool SetObjectAt(uint x, uint y, uint z, TGridObject gridObject)

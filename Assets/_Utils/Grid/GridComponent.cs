@@ -4,12 +4,13 @@ using UnityEngine;
 
 public class GridComponent<TGridObject> : MonoBehaviour
 {
-    [SerializeField] private Vector3Int _dimensions;
-    [SerializeField] private float _cellsize;
-    [SerializeField] private Grid<TGridObject> _grid;
-    [SerializeField] private bool _drawDebug = false;
-    [SerializeField] private Color _debugColor = Color.white;
-    [SerializeField] private Vector3 _cellLabelNormalizedOffset = Vector3.one * 0.5f;
+    [SerializeField] protected Vector3Int _dimensions;
+    [SerializeField] protected Vector3 _cellsize;
+    [SerializeField] protected Grid<TGridObject> _grid;
+    [SerializeField] protected bool _drawDebug = false;
+    [SerializeField] protected Color _debugColor = Color.white;
+    [SerializeField] protected Vector3 _cellLabelNormalizedOffset = Vector3.one * 0.5f;
+    public static Vector3Int INVALID_CELL = Vector3Int.one * -1;
 
     public TGridObject GetObjectAtCell(uint x, uint y, uint z)
         { return _grid.GetObjectAtCell(x, y, z); }
@@ -26,26 +27,31 @@ public class GridComponent<TGridObject> : MonoBehaviour
     public bool WorldToCell(Vector3 world, out uint x, out uint y, out uint z)
     {
         Vector3 relativeLoc = world - Origin;
-        Vector3Int gridAddress = Vector3Int.FloorToInt(relativeLoc / _cellsize);
+        relativeLoc.x /= _cellsize.x;
+        relativeLoc.y /= _cellsize.y;
+        relativeLoc.z /= _cellsize.z;
+        Vector3Int gridAddress = Vector3Int.FloorToInt(relativeLoc);
         x = (uint)gridAddress.x;
         y = (uint)gridAddress.y;
         z = (uint)gridAddress.z;
-    
+
         return IsWithinBounds(gridAddress.x, gridAddress.y, gridAddress.z);
     }
     public Vector3 CellToWorld(uint x, uint y, uint z, Vector3 normPosWithinCell = new Vector3())
     {
-        Vector3 offset = normPosWithinCell * _cellsize;
-        Vector3 worldOffset = new(x * _cellsize, y * _cellsize, z * _cellsize);
+        Vector3 offset = Vector3.Scale(normPosWithinCell, _cellsize);
+        Vector3 worldOffset = new(x * _cellsize.x, y * _cellsize.y, z * _cellsize.z);
 
         return Origin + worldOffset + offset;
     }
+    public Vector3 CellToWorld(int x, int y, int z, Vector3 normPosWithinCell = new Vector3())
+        { return CellToWorld((uint)x, (uint)y, (uint)z, normPosWithinCell); }
 
     void Awake(){ 
         CheckDimensions();
     }
 
-    private void CheckDimensions()
+    protected void CheckDimensions()
     {
         if(_dimensions.x < 0 || _dimensions.y < 0 || _dimensions.z < 0) return;
         if((uint)_dimensions.x != _grid.XSize || (uint)_dimensions.y != _grid.YSize || (uint)_dimensions.z != _grid.ZSize)
@@ -92,13 +98,13 @@ public class GridComponent<TGridObject> : MonoBehaviour
 
                     Vector3[] corners =
                     {
-                        new Vector3(1.0f, 0.0f, 0.0f) * _cellsize + cellOrigin,
-                        new Vector3(0.0f, 1.0f, 0.0f) * _cellsize + cellOrigin,
-                        new Vector3(0.0f, 0.0f, 1.0f) * _cellsize + cellOrigin,
-                        new Vector3(0.0f, 1.0f, 1.0f) * _cellsize + cellOrigin,
-                        new Vector3(1.0f, 0.0f, 1.0f) * _cellsize + cellOrigin,
-                        new Vector3(1.0f, 1.0f, 0.0f) * _cellsize + cellOrigin,
-                        new Vector3(1.0f, 1.0f, 1.0f) * _cellsize + cellOrigin,
+                        Vector3.Scale(new(1.0f, 0.0f, 0.0f), _cellsize) + cellOrigin,
+                        Vector3.Scale(new(0.0f, 1.0f, 0.0f), _cellsize) + cellOrigin,
+                        Vector3.Scale(new(0.0f, 0.0f, 1.0f), _cellsize) + cellOrigin,
+                        Vector3.Scale(new(0.0f, 1.0f, 1.0f), _cellsize) + cellOrigin,
+                        Vector3.Scale(new(1.0f, 0.0f, 1.0f), _cellsize) + cellOrigin,
+                        Vector3.Scale(new(1.0f, 1.0f, 0.0f), _cellsize) + cellOrigin,
+                        Vector3.Scale(new(1.0f, 1.0f, 1.0f), _cellsize) + cellOrigin,
                     };
                     
                     Debug.DrawLine(cellOrigin, corners[0], _debugColor);
