@@ -8,14 +8,16 @@ using System;
     public uint ZSize { get; private set; }
     public int Left { get; private set; }
     public int Right { get; private set; }
-    public int Top { get; private set; }
     public int Bottom { get; private set; }
+    public int Top { get; private set; }
     public int Front { get; private set; }
     public int Back { get; private set; }
     public TGridObject[,,] _objects = new TGridObject[1,1,1];
     public void Resize(int right, int top, int back, int left = 0, int bottom = 0, int front = 0)
     {
-        if(left >= right || bottom >= top || front >= back)
+        // LogUtils.Log($"Resize: {left}, {right}, {bottom}, {top}, {front}, {back}");
+
+        if(left > right || bottom > top || front > back)
         {
             LogUtils.LogWarning("Invalid Grid Dimensions Set");
             return;
@@ -27,9 +29,9 @@ using System;
 
         Right = right;      Top = top;          Back = back;
         Left = left;        Bottom = bottom;    Front = front;
-        XSize = (uint)(Right - Left);
-        YSize = (uint)(Top - Bottom);
-        ZSize = (uint)(Back - Front);
+        XSize = (uint)(Right - Left + 1);
+        YSize = (uint)(Top - Bottom + 1);
+        ZSize = (uint)(Back - Front + 1);
 
         if (_objects == null)
         {
@@ -61,7 +63,6 @@ using System;
     /// <returns>True if the grid address is within the grid's dimensions</returns>
     public bool SetObjectAt(int x, int y, int z, TGridObject gridObject)
     {
-        LogUtils.Log($"Set object at {x}, {y}, {z}");
         if(!IsWithinBounds(x, y, z)) return false;
         _objects[x - Left, y - Bottom, z - Front] = gridObject;
         return true;

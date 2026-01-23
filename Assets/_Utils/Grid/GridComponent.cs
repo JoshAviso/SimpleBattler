@@ -14,6 +14,7 @@ public class GridComponent<TGridObject> : MonoBehaviour
     [SerializeField] protected Vector3 _cellLabelNormalizedOffset = Vector3.one * 0.5f;
     public static Vector3Int INVALID_CELL = Vector3Int.one * -99999;
 
+    /// <returns>True if there is an object at the indicated cell.</returns>
     public bool GetObjectAtCell(int x, int y, int z, out TGridObject obj)
         { return _grid.GetObjectAtCell(x, y, z, out obj); }
 
@@ -32,13 +33,9 @@ public class GridComponent<TGridObject> : MonoBehaviour
         relativeLoc.y /= _cellsize.y;
         relativeLoc.z /= _cellsize.z;
 
-        LogUtils.Log($"Relative Loc: {relativeLoc}");
-
-        x = relativeLoc.x > 0 ? Mathf.FloorToInt(relativeLoc.x) : Mathf.CeilToInt(relativeLoc.x);
-        y = relativeLoc.y > 0 ? Mathf.FloorToInt(relativeLoc.y) : Mathf.CeilToInt(relativeLoc.y);
-        z = relativeLoc.z > 0 ? Mathf.FloorToInt(relativeLoc.z) : Mathf.CeilToInt(relativeLoc.z);
-
-        LogUtils.Log($"Relative Loc Short: {x}, {y}, {z}");
+        x = relativeLoc.x >= 0 ? Mathf.FloorToInt(relativeLoc.x) : Mathf.CeilToInt(relativeLoc.x);
+        y = relativeLoc.y >= 0 ? Mathf.FloorToInt(relativeLoc.y) : Mathf.CeilToInt(relativeLoc.y);
+        z = relativeLoc.z >= 0 ? Mathf.FloorToInt(relativeLoc.z) : Mathf.CeilToInt(relativeLoc.z);
 
         return IsWithinBounds(x, y, z);
     }
@@ -58,11 +55,11 @@ public class GridComponent<TGridObject> : MonoBehaviour
     {
         if(
             _minCoord.x != _grid.Left || 
-            _minCoord.x != _grid.Right || 
+            _maxCoord.x != _grid.Right || 
             _minCoord.y != _grid.Bottom || 
-            _minCoord.y != _grid.Top || 
-            _minCoord.z != _grid.Back || 
-            _minCoord.z != _grid.Front 
+            _maxCoord.y != _grid.Top || 
+            _minCoord.z != _grid.Front ||
+            _maxCoord.z != _grid.Back  
         ) 
             _grid.Resize(_maxCoord.x, _maxCoord.y, _maxCoord.z, _minCoord.x, _minCoord.y, _minCoord.z);
     }

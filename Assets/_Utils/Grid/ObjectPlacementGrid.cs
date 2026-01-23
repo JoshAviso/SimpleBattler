@@ -44,23 +44,21 @@ public class ObjectPlacementGrid : GridComponent<GridGameObject>
         if(rotation.HasFlag(EGridRotation.CCW)) x -= bounds.x - 1;
 
         for (int i = 0; i < bounds.x; i++)
-        for(int j = 0; j < bounds.y; j++)
-        for(int k = 0; k < bounds.z; k++)
+        for (int j = 0; j < bounds.y; j++)
+        for (int k = 0; k < bounds.z; k++)
         {
+            // LogUtils.Log($"Object at cell: {x+i}, {y+j}, {z+k}, {GetObjectAtCell(x + i, y + j, z + k, out _)}");
             if(!IsWithinBounds(x + i, y + j, z + k)) return false;
             if(GetObjectAtCell(x + i, y + j, z + k, out _)) return false;
         }
 
-        for(int i = 0; i < bounds.x; i++)
-        for(int j = 0; j < bounds.y; j++)
-        for(int k = 0; k < bounds.z; k++)
+        for (int i = 0; i < bounds.x; i++)
+        for (int j = 0; j < bounds.y; j++)
+        for (int k = 0; k < bounds.z; k++)
             SetObjectAt(x + i, y + j, z + k, obj);
 
         return true;
     }
-
-    public bool TrySetObject(GridGameObject obj, int x, int y, int z)
-        { return _grid.SetObjectAt(x, y, z, obj); }
 
     protected override string GetCellLabel(int x, int y, int z)
     {
@@ -77,6 +75,8 @@ public class ObjectPlacementGrid : GridComponent<GridGameObject>
         Vector3 lookAhead = Vector3.Scale(0.5f * _cellsize + Vector3.one * _lookforwardDist, camForward);
         playerPos += lookAhead;
         playerPos.y = origY;
+
+        // LogUtils.Log($"In bounds: {WorldToCell(playerPos, out var h, out var k, out var l)}, {h}, {k}, {l}. {_grid.Left}, {_grid.Right}, {_grid.Bottom}, {_grid.Top}, {_grid.Front}, {_grid.Back}");
 
         if(WorldToCell(playerPos, out var x, out var y, out var z))
             playerCell = new(x, y, z);

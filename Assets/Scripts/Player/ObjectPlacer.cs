@@ -12,17 +12,11 @@ public class ObjectPlacer : MonoBehaviour
         Vector3Int placepos = ObjectPlacementGrid.Instance.PlacementPos;
         bool res = ObjectPlacementGrid.Instance.TrySetObject(Instance._placeObj, placepos.x, placepos.y, placepos.z);
         
-        if(!res)
-        {
-            LogUtils.Log("Failed place object!");
-            return false;
-        }
+        if(!res) return false;
 
         GameObject obj = Instantiate(Instance._placeObj.Prefab);
         obj.transform.position = ObjectPlacementGrid.Instance.CellToWorld(placepos.x, placepos.y, placepos.z);    
         obj.SetActive(true);    
-
-        LogUtils.Log("Placed object!");
 
         return true;
     }
