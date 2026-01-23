@@ -1393,7 +1393,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a38011e06e84d84facb99d5b150bed4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ObjectPlacer
-  placeObj: {fileID: 6997050713643301010, guid: 84bedec82cd060d41973a210e9a38d30, type: 3}
+  _placeObj: {fileID: 11400000, guid: 9d5085920f8342e42b7af79e469094a6, type: 2}
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -3080,7 +3080,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6597b74011e30964f9bf2042f5b20793, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameObjectGrid
-  _dimensions: {x: 20, y: 1, z: 20}
+  _maxCoord: {x: 20, y: 0, z: 20}
+  _minCoord: {x: 0, y: 0, z: 0}
   _cellsize: {x: 0.5, y: 2, z: 0.5}
   _drawDebug: 1
   _debugColor: {r: 1, g: 1, b: 1, a: 1}

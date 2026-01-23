@@ -1,51 +1,54 @@
 
+using System;
 using UnityEditor;
 using UnityEngine;
 
 public class GridComponent<TGridObject> : MonoBehaviour
 {
-    [SerializeField] protected Vector3Int _dimensions;
+    [SerializeField] protected Vector3Int _maxCoord;
+    [SerializeField] protected Vector3Int _minCoord;
     [SerializeField] protected Vector3 _cellsize;
     [SerializeField] protected Grid<TGridObject> _grid;
     [SerializeField] protected bool _drawDebug = false;
     [SerializeField] protected Color _debugColor = Color.white;
     [SerializeField] protected Vector3 _cellLabelNormalizedOffset = Vector3.one * 0.5f;
-    public static Vector3Int INVALID_CELL = Vector3Int.one * -1;
+    public static Vector3Int INVALID_CELL = Vector3Int.one * -99999;
 
-    public TGridObject GetObjectAtCell(uint x, uint y, uint z)
-        { return _grid.GetObjectAtCell(x, y, z); }
+    public bool GetObjectAtCell(int x, int y, int z, out TGridObject obj)
+        { return _grid.GetObjectAtCell(x, y, z, out obj); }
 
     /// <returns>True if the grid address is within the grid's dimensions</returns>
-    public bool SetObjectAt(uint x, uint y, uint z, TGridObject gridObject)
+    public bool SetObjectAt(int x, int y, int z, TGridObject gridObject)
         { return _grid.SetObjectAt(x, y, z, gridObject); }
-    public bool IsWithinBounds(uint x, uint y, uint z) { return _grid.IsWithinBounds(x, y, z); }
     public bool IsWithinBounds(int x, int y, int z) { return _grid.IsWithinBounds(x, y, z); }
 
     public Vector3 Origin => transform.position;
 
     /// <returns>True if the grid address is within the grid's dimensions</returns>
-    public bool WorldToCell(Vector3 world, out uint x, out uint y, out uint z)
+    public bool WorldToCell(Vector3 world, out int x, out int y, out int z)
     {
         Vector3 relativeLoc = world - Origin;
         relativeLoc.x /= _cellsize.x;
         relativeLoc.y /= _cellsize.y;
         relativeLoc.z /= _cellsize.z;
-        Vector3Int gridAddress = Vector3Int.FloorToInt(relativeLoc);
-        x = (uint)gridAddress.x;
-        y = (uint)gridAddress.y;
-        z = (uint)gridAddress.z;
 
-        return IsWithinBounds(gridAddress.x, gridAddress.y, gridAddress.z);
+        LogUtils.Log($"Relative Loc: {relativeLoc}");
+
+        x = relativeLoc.x > 0 ? Mathf.FloorToInt(relativeLoc.x) : Mathf.CeilToInt(relativeLoc.x);
+        y = relativeLoc.y > 0 ? Mathf.FloorToInt(relativeLoc.y) : Mathf.CeilToInt(relativeLoc.y);
+        z = relativeLoc.z > 0 ? Mathf.FloorToInt(relativeLoc.z) : Mathf.CeilToInt(relativeLoc.z);
+
+        LogUtils.Log($"Relative Loc Short: {x}, {y}, {z}");
+
+        return IsWithinBounds(x, y, z);
     }
-    public Vector3 CellToWorld(uint x, uint y, uint z, Vector3 normPosWithinCell = new Vector3())
+    public Vector3 CellToWorld(int x, int y, int z, Vector3 normPosWithinCell = new Vector3())
     {
         Vector3 offset = Vector3.Scale(normPosWithinCell, _cellsize);
         Vector3 worldOffset = new(x * _cellsize.x, y * _cellsize.y, z * _cellsize.z);
 
         return Origin + worldOffset + offset;
     }
-    public Vector3 CellToWorld(int x, int y, int z, Vector3 normPosWithinCell = new Vector3())
-        { return CellToWorld((uint)x, (uint)y, (uint)z, normPosWithinCell); }
 
     void Awake(){ 
         CheckDimensions();
@@ -53,9 +56,15 @@ public class GridComponent<TGridObject> : MonoBehaviour
 
     protected void CheckDimensions()
     {
-        if(_dimensions.x < 0 || _dimensions.y < 0 || _dimensions.z < 0) return;
-        if((uint)_dimensions.x != _grid.XSize || (uint)_dimensions.y != _grid.YSize || (uint)_dimensions.z != _grid.ZSize)
-            _grid.Resize((uint)_dimensions.x, (uint)_dimensions.y, (uint)_dimensions.z);
+        if(
+            _minCoord.x != _grid.Left || 
+            _minCoord.x != _grid.Right || 
+            _minCoord.y != _grid.Bottom || 
+            _minCoord.y != _grid.Top || 
+            _minCoord.z != _grid.Back || 
+            _minCoord.z != _grid.Front 
+        ) 
+            _grid.Resize(_maxCoord.x, _maxCoord.y, _maxCoord.z, _minCoord.x, _minCoord.y, _minCoord.z);
     }
 
     void OnDrawGizmos()
@@ -70,31 +79,31 @@ public class GridComponent<TGridObject> : MonoBehaviour
         GUIStyle style = new();
         style.normal.textColor = _debugColor;
 
-        for(int i = 0; i < _dimensions.x; i++)
+        for(int i = _minCoord.x; i <= _maxCoord.x; i++)
         {
-            for(int j = 0; j < _dimensions.y; j++)
+            for(int j = _minCoord.y; j <= _maxCoord.y; j++)
             {
-                for(int k = 0; k < _dimensions.z; k++)
+                for(int k = _minCoord.z; k <= _maxCoord.z; k++)
                 {
-                    string label = GetCellLabel((uint)i, (uint)j, (uint)k);
-                    Vector3 labelPos = CellToWorld((uint)i, (uint)j, (uint)k, _cellLabelNormalizedOffset);
+                    string label = GetCellLabel(i, j, k);
+                    Vector3 labelPos = CellToWorld(i, j, k, _cellLabelNormalizedOffset);
 
                     Handles.Label(labelPos, label, style);
                 }
             }
         }
     }
-    protected virtual string GetCellLabel(uint x, uint y, uint z) { return $"({x}, {y}, {z})"; }
+    protected virtual string GetCellLabel(int x, int y, int z) { return $"({x}, {y}, {z})"; }
     
     private void DrawCellLines()
     {
-        for(int i = 0; i < _dimensions.x; i++)
+        for(int i = _minCoord.x; i <= _maxCoord.x; i++)
         {
-            for(int j = 0; j < _dimensions.y; j++)
+            for(int j = _minCoord.y; j <= _maxCoord.y; j++)
             {
-                for(int k = 0; k < _dimensions.z; k++)
+                for(int k = _minCoord.z; k <= _maxCoord.z; k++)
                 {
-                    Vector3 cellOrigin = CellToWorld((uint)i, (uint)j, (uint)k);
+                    Vector3 cellOrigin = CellToWorld(i, j, k);
 
                     Vector3[] corners =
                     {

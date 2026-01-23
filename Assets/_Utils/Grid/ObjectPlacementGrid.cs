@@ -1,7 +1,17 @@
 
+using System;
 using UnityEngine;
 
-public class ObjectPlacementGrid : GridComponent<GameObject>
+[Flags] public enum EGridRotation
+{
+    None = 0, 
+    CW = 1 << 0, 
+    CCW = 1 << 1, 
+    Double = CW | CCW, 
+    Mirrored = 1 << 2
+}
+
+public class ObjectPlacementGrid : GridComponent<GridGameObject>
 {
     private Vector3Int playerCell;
     public Vector3Int PlacementPos => playerCell;
@@ -14,22 +24,48 @@ public class ObjectPlacementGrid : GridComponent<GameObject>
         UpdateBuildIndicator();
     }
 
-    public bool TrySetObject(GameObject obj, uint x, uint y, uint z)
+    public bool TrySetObject(GridGameObject obj, int x, int y, int z, EGridRotation rotation = EGridRotation.None)
     {
-        if(!IsWithinBounds(x, y, z)) return false;
-        if(GetObjectAtCell(x, y, z) != null) return false;
+        Vector3Int bounds = obj.GridDimensions;
+        if(bounds.x < 0 || bounds.y < 0 || bounds.z < 0)
+        {
+            LogUtils.LogWarning($"Trying to place invalid object ${obj} with size ${bounds}");
+            return false;
+        }
 
-        SetObjectAt(x, y, z, obj);
+        // Clear mirror byte as irrelevant
+        rotation &= ~EGridRotation.Mirrored;
+        // Switch x and z for 90deg rotated
+        if(rotation.Equals(EGridRotation.CW) || rotation.Equals(EGridRotation.CCW))
+            (bounds.z, bounds.x) = (bounds.x, bounds.z);
+
+        // Change 'bottom left' check origin based on rotation
+        if(rotation.HasFlag(EGridRotation.CW)) z -= bounds.z - 1;
+        if(rotation.HasFlag(EGridRotation.CCW)) x -= bounds.x - 1;
+
+        for (int i = 0; i < bounds.x; i++)
+        for(int j = 0; j < bounds.y; j++)
+        for(int k = 0; k < bounds.z; k++)
+        {
+            if(!IsWithinBounds(x + i, y + j, z + k)) return false;
+            if(GetObjectAtCell(x + i, y + j, z + k, out _)) return false;
+        }
+
+        for(int i = 0; i < bounds.x; i++)
+        for(int j = 0; j < bounds.y; j++)
+        for(int k = 0; k < bounds.z; k++)
+            SetObjectAt(x + i, y + j, z + k, obj);
+
         return true;
     }
 
-    public bool TrySetObject(GameObject obj, int x, int y, int z)
-        { return TrySetObject(obj, (uint)x, (uint)y, (uint)z); }
+    public bool TrySetObject(GridGameObject obj, int x, int y, int z)
+        { return _grid.SetObjectAt(x, y, z, obj); }
 
-    protected override string GetCellLabel(uint x, uint y, uint z)
+    protected override string GetCellLabel(int x, int y, int z)
     {
-        if(playerCell.x == (int)x && playerCell.y == (int)y && playerCell.z == (int)z)
-            return "Player Cell";
+        if(_grid.GetObjectAtCell(x, y, z, out var obj))
+            return obj.name;
         else return $"({x}, {y}, {z})";
     } 
 
@@ -43,7 +79,7 @@ public class ObjectPlacementGrid : GridComponent<GameObject>
         playerPos.y = origY;
 
         if(WorldToCell(playerPos, out var x, out var y, out var z))
-            playerCell = new((int)x, (int)y, (int)z);
+            playerCell = new(x, y, z);
         else playerCell = INVALID_CELL;
     }
 
